@@ -1,0 +1,6 @@
+[submodule "simulation"]
+	path = simulation
+	url = https://github.com/TWeber132/thesis-simulation.git
+[submodule "client"]
+	path = client
+	url = https://github.com/TWeber132/thesis-inference-server-client.git
