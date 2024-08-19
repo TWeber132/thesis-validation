@@ -1,9 +1,9 @@
 [submodule "simulation"]
-	path = simulation
+	path = docker_volume/simulation
 	url = https://github.com/TWeber132/thesis-simulation.git
 [submodule "client"]
-	path = client
+	path = docker_volume/client
 	url = https://github.com/TWeber132/thesis-inference-server-client.git
 [submodule "dataset"]
-	path = dataset
+	path = docker_volume/dataset
 	url = https://github.com/TWeber132/thesis-dataset.git
