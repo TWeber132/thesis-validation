@@ -4,7 +4,7 @@ import numpy as np
 import pybullet as p
 import matplotlib.pyplot as plt
 
-from client.src.inference_server_client import InferenceServerClient
+from client.src.inference_server_client_wo import InferenceServerClient
 from dataset.utils import load_dataset_language
 
 from simulation.environments.ur10e_cell import UR10ECell
@@ -16,8 +16,6 @@ def read_sample_at_i_and_request(cfg, i: int = 0) -> np.ndarray:
     test_dataset = load_dataset_language(
         50, "/home/robot/shared_docker_volume/storage/data/language/simple/test/")
 
-    text_query = test_dataset.datasets['language'].read_sample(i)
-    text_query = " "
     gt_pose = test_dataset.datasets['grasp_pose'].read_sample(i)['grasp_pose']
     task_info = test_dataset.datasets['info'].read_sample(i)
 
@@ -36,14 +34,12 @@ def read_sample_at_i_and_request(cfg, i: int = 0) -> np.ndarray:
         intrinsics.append(intrinsic)
     plt.imshow(colors[0])
 
-    print("Optimizing for: ", text_query)
     inference_server_client = InferenceServerClient(
         url="http://172.20.1.3:31708")
     optimized_pose, trajectory = inference_server_client.optimize_pose(camera_color_imgs=colors,
                                                                        camera_pose_htms=extrinsics,
                                                                        camera_instrinsics=intrinsics,
                                                                        optimization_config=cfg.optimization_config,
-                                                                       text_query=text_query,
                                                                        reset_optimizer=True)
 
     pos = optimized_pose[:3, 3]
@@ -86,12 +82,12 @@ def create_environment(task_info):
 @hydra.main(version_base=None, config_path="./client/src/configs", config_name="language_1_view")
 def main(cfg):
     show_pos = True
-    i = 6
+    i = 1
 
     trajectories = []
     op_poses = []
-    for n in range(250):
-        print(f"Optimization {n+1} of 50")
+    for n in range(100):
+        print(f"Optimization {n+1} of 250")
         tra = []
         optimized_pose, gt_pose, task_info, trajectory = read_sample_at_i_and_request(
             cfg, i)
