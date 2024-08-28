@@ -51,6 +51,7 @@ RUN python3 -m pip install gym==0.17.3 \
                            imageio-ffmpeg
 
 RUN python3 -m pip install fastapi uvicorn msgpack requests
+RUN python3 -m pip install hydra-core --upgrade
 
 # Set pythonpath
 RUN echo "export PYTHONPATH=$PYTHONPATH:/home/${USER_NAME}/docker_volume" >> /home/${USER_NAME}/.bashrc
